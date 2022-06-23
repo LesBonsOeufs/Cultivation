@@ -28,31 +28,44 @@ namespace Com.GabrielBernabeu.Cultivation {
         private void EnterGame()
         {
             enabled = false;
-            ZoomableBg.Instance.ZoomState = ZoomState.CLOSE;
-            ZoomableBg.Instance.OnZoomEnded += ZoomableBg_OnZoomEnded;
 
+            if (LocalDataSaving.LoadData() == null)
+            {
+                ZoomableBg.Instance.ZoomState = ZoomState.CLOSE;
+                ZoomableBg.Instance.OnZoomEnded += ToChooseSeedScreen;
+            }
+            else
+            {
+                ZoomableBg.Instance.ZoomState = ZoomState.TREE;
+                ZoomableBg.Instance.OnZoomEnded += ToTreeScreen;
+            }
+                
             canvasGroup.DOFade(0f, fadeDuration);
         }
 
-        private void ZoomableBg_OnZoomEnded(ZoomableBg sender)
+        private void ToChooseSeedScreen(ZoomableBg sender)
         {
-            ZoomableBg.Instance.OnZoomEnded -= ZoomableBg_OnZoomEnded;
-            ToChooseSeedScreen();
-        }
-
-        private void ToChooseSeedScreen()
-        {
+            ZoomableBg.Instance.OnZoomEnded -= ToChooseSeedScreen;
             gameObject.SetActive(false);
 
-            if (LocalDataSaving.LoadData() == null)
-                ChooseSeedScreen.Instance.In();
-            //else TreeScreen.In();
+            ChooseSeedScreen.Instance.In();
+        }
+
+        private void ToTreeScreen(ZoomableBg sender)
+        {
+            ZoomableBg.Instance.OnZoomEnded -= ToTreeScreen;
+            gameObject.SetActive(false);
+
+            //TreeScreen.Instance.In();
         }
 
         private void OnDestroy()
         {
             if (ZoomableBg.Instance != null)
-                ZoomableBg.Instance.OnZoomEnded -= ZoomableBg_OnZoomEnded;
+            {
+                ZoomableBg.Instance.OnZoomEnded -= ToChooseSeedScreen;
+                ZoomableBg.Instance.OnZoomEnded -= ToTreeScreen;
+            }
         }
     }
 }

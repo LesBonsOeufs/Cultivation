@@ -649,17 +649,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1641445715 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4550974273452993015, guid: 9d3f15262bbc2864dbd4dabe2448d7ac, type: 3}
-  m_PrefabInstance: {fileID: 3821897042523437330}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdd093052e45d7344afd93047c2c3116, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2248428906843008900
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -832,10 +821,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChooseSeedScreen
       objectReference: {fileID: 0}
-    - target: {fileID: 8183810366477183269, guid: 9d3f15262bbc2864dbd4dabe2448d7ac, type: 3}
-      propertyPath: confirmButton
-      value: 
-      objectReference: {fileID: 1641445715}
     - target: {fileID: 8183810366477183271, guid: 9d3f15262bbc2864dbd4dabe2448d7ac, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

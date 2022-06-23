@@ -12,7 +12,7 @@ namespace Com.GabrielBernabeu.Cultivation
     {
         FAR,
         CLOSE,
-        GROUND
+        TREE
     }
 
     public delegate void ZoomableBgEventHandler(ZoomableBg sender);
@@ -44,7 +44,7 @@ namespace Com.GabrielBernabeu.Cultivation
                     case ZoomState.CLOSE:
                         ToClose();
                         break;
-                    case ZoomState.GROUND:
+                    case ZoomState.TREE:
                         ToGround();
                         break;
                 }
@@ -83,7 +83,8 @@ namespace Com.GabrielBernabeu.Cultivation
 
         private void ToGround()
         {
-
+            rectTransform.DOAnchorPos(new Vector2(-69f, 1768f), zoomDuration);
+            rectTransform.DOSizeDelta(new Vector2(6622.82f, 5659.36f), zoomDuration).OnComplete(OnZoomEndedInvoke);
         }
 
         private void OnZoomEndedInvoke()
