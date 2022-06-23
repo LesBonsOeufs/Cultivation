@@ -41,6 +41,7 @@ namespace Com.GabrielBernabeu.Cultivation {
 
         private void ToChooseSeedScreen()
         {
+            gameObject.SetActive(false);
             ChooseSeedScreen.Instance.In();
         }
 
