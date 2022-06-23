@@ -8,6 +8,7 @@ using DG.Tweening;
 using UnityEngine.UI;
 using TMPro;
 using Com.GabrielBernabeu.Common.CustomButtons;
+using Com.GabrielBernabeu.Common.DataManagement;
 
 namespace Com.GabrielBernabeu.Cultivation {
     public class ChooseSeedScreen : MonoBehaviour
@@ -201,12 +202,14 @@ namespace Com.GabrielBernabeu.Cultivation {
         private void FinalConfirm()
         {
             if (taskInput.text == "")
-                Debug.LogError("Please fill the input!");
+                Debug.Log("Please fill the input!");
             else
             {
                 Out();
                 confirmSeedGroup.transform.DOScale(confirmSeedGroupFinalScale, fadeDuration)
                     .OnComplete(() => { confirmSeedGroup.transform.localScale = Vector3.one; });
+
+                LocalDataSaving.SaveData(new LocalData(chosenSeedType, taskInput.text));
             }
         }
 
@@ -221,14 +224,6 @@ namespace Com.GabrielBernabeu.Cultivation {
             socialButton.onClick.RemoveListener(ChooseSocial);
             learningButton.onClick.RemoveListener(ChooseLearning);
             cancelButton.onClick.RemoveListener(ToChooseSeed);
-        }
-
-        private enum SeedType
-        {
-            SPORT,
-            RESTING,
-            SOCIAL,
-            LEARNING
         }
     }
 }

@@ -67,18 +67,18 @@ namespace Com.GabrielBernabeu.Common.DataManagement {
 
         private static void FillDataToSave(ref LocalData dataToSave)
         {
-            LocalData? lNullableLoadedData = LoadData();
+            //LocalData? lNullableLoadedData = LoadData();
 
-            if (lNullableLoadedData != null)
-            {
-                LocalData lLoadedData = lNullableLoadedData.Value;
+            //if (lNullableLoadedData != null)
+            //{
+            //    LocalData lLoadedData = lNullableLoadedData.Value;
 
-                if (dataToSave.username == null || dataToSave.password == null)
-                {
-                    dataToSave.username = lLoadedData.username;
-                    dataToSave.password = lLoadedData.password;
-                }
-            }
+            //    if (dataToSave.username == null || dataToSave.password == null)
+            //    {
+            //        dataToSave.username = lLoadedData.username;
+            //        dataToSave.password = lLoadedData.password;
+            //    }
+            //}
         }
     }
 }

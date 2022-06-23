@@ -1,16 +1,17 @@
+using Com.GabrielBernabeu.Cultivation;
 using System;
 
 namespace Com.GabrielBernabeu.Common.DataManagement {
     [Serializable]
     public struct LocalData
     {
-        public string username;
-        public string password;
+        public SeedType seedType;
+        public string taskName;
 
-        public LocalData(string username = null, string password = null)
+        public LocalData(SeedType seedType, string taskName = null)
         {
-            this.username = username;
-            this.password = password;
+            this.seedType = seedType;
+            this.taskName = taskName;
         }
     }
 }

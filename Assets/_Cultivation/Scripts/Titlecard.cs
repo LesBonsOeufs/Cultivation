@@ -5,6 +5,7 @@
 
 using UnityEngine;
 using DG.Tweening;
+using Com.GabrielBernabeu.Common.DataManagement;
 
 namespace Com.GabrielBernabeu.Cultivation {
     public class Titlecard : MonoBehaviour
@@ -42,7 +43,10 @@ namespace Com.GabrielBernabeu.Cultivation {
         private void ToChooseSeedScreen()
         {
             gameObject.SetActive(false);
-            ChooseSeedScreen.Instance.In();
+
+            if (LocalDataSaving.LoadData() == null)
+                ChooseSeedScreen.Instance.In();
+            //else TreeScreen.In();
         }
 
         private void OnDestroy()

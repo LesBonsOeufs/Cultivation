@@ -1281,12 +1281,14 @@ MonoBehaviour:
   socialButton: {fileID: 2327863723418068359}
   learningButton: {fileID: 2327863724980899217}
   cancelButton: {fileID: 1027486400}
+  confirmButton: {fileID: 4550974273452993015}
   sportTree: {fileID: 6731752927904718451}
   restingTree: {fileID: 3421317280437736874}
   socialTree: {fileID: 7949746045234487261}
   learningTree: {fileID: 2079303715268401144}
   chooseSeedGroup: {fileID: 1205590986102601326}
   confirmSeedGroup: {fileID: 9025074315105292714}
+  confirmSeedGroupFinalScale: 1.6
   taskInput: {fileID: 1275406631}
 --- !u!225 &7539887277615734293
 CanvasGroup:
