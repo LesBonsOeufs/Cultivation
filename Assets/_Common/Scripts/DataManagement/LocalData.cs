@@ -16,6 +16,8 @@ namespace Com.GabrielBernabeu.Common.DataManagement {
         public bool saturday;
         public bool sunday;
 
+        public string lastTaskDoneDate;
+
         public LocalData(SeedType seedType, string taskName, 
                          bool monday, bool tuesday, bool wednesday, bool thursday, bool friday, bool saturday, bool sunday)
         {
@@ -29,6 +31,8 @@ namespace Com.GabrielBernabeu.Common.DataManagement {
             this.friday = friday;
             this.saturday = saturday;
             this.sunday = sunday;
+
+            lastTaskDoneDate = DateTime.Now.AddDays(-1).ToShortDateString();
         }
     }
 }

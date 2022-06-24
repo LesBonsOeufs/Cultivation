@@ -9,6 +9,8 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
+using Com.GabrielBernabeu.Common;
 
 namespace Com.GabrielBernabeu.Cultivation 
 {
@@ -17,9 +19,61 @@ namespace Com.GabrielBernabeu.Cultivation
         [SerializeField] private TaskTree taskTree = default;
         [SerializeField] private TextMeshProUGUI taskNameTmp = default;
         [SerializeField] private float fadeDuration = 0.6f;
+
+        [Header("Buttons")]
         [SerializeField] private Button resetBtn = default;
+        [SerializeField] private Button taskCompletedBtn = default;
 
         private CanvasGroup canvasGroup;
+        private LocalData loadedData;
+
+        public bool IsDayCorrect
+        {
+            get
+            {
+                switch (DateTime.Now.DayOfWeek)
+                {
+                    case DayOfWeek.Monday:
+                        if (loadedData.monday)
+                            return true;
+                        break;
+                    case DayOfWeek.Tuesday:
+                        if (loadedData.tuesday)
+                            return true;
+                        break;
+                    case DayOfWeek.Wednesday:
+                        if (loadedData.wednesday)
+                            return true;
+                        break;
+                    case DayOfWeek.Thursday:
+                        if (loadedData.thursday)
+                            return true;
+                        break;
+                    case DayOfWeek.Friday:
+                        if (loadedData.friday)
+                            return true;
+                        break;
+                    case DayOfWeek.Saturday:
+                        if (loadedData.saturday)
+                            return true;
+                        break;
+                    case DayOfWeek.Sunday:
+                        if (loadedData.sunday)
+                            return true;
+                        break;
+                }
+
+                return false;
+            }
+        }
+
+        public bool WasPressedToday
+        {
+            get
+            {
+                return DateTime.Now.ToShortDateString() == loadedData.lastTaskDoneDate;
+            }
+        }
 
         public static TreeScreen Instance { get; private set; }
 
@@ -37,6 +91,7 @@ namespace Com.GabrielBernabeu.Cultivation
             canvasGroup.blocksRaycasts = false;
 
             resetBtn.onClick.AddListener(OnResetButton);
+            taskCompletedBtn.onClick.AddListener(OnTaskCompletedButton);
 
             gameObject.SetActive(false);
         }
@@ -45,6 +100,31 @@ namespace Com.GabrielBernabeu.Cultivation
         {
             LocalDataSaving.DeleteData();
             SceneManager.LoadScene(0);
+        }
+
+        private void OnTaskCompletedButton()
+        {
+            if (IsDayCorrect)
+            {
+                if (!WasPressedToday)
+                {
+                    Debug.Log("well done!");
+                    loadedData.lastTaskDoneDate = DateTime.Now.ToShortDateString();
+                    LocalDataSaving.SaveData(loadedData);
+                }
+                else
+                {
+                    Debug.Log("Button already pressed today!");
+                    TextFeedbackMaker.Instance.CreateText("Button already pressed today!", Color.red, 1f, Color.red, 1f, 0f, 1f, Color.black,
+                                                      3f, 2f, true, taskCompletedBtn.transform.position, new Vector2(3f, 1f));
+                }
+            }
+            else
+            {
+                Debug.Log("Incorrect day!");
+                TextFeedbackMaker.Instance.CreateText("Incorrect day!", Color.red, 1f, Color.red, 1f, 0f, 1f, Color.black,
+                                                      3f, 2f, true, taskCompletedBtn.transform.position, new Vector2(3f, 1f));
+            }
         }
 
         public void In()
@@ -59,9 +139,11 @@ namespace Com.GabrielBernabeu.Cultivation
         {
             Debug.Log($"{data.monday} {data.tuesday} {data.wednesday} {data.thursday} " +
                       $"{data.friday} {data.saturday} {data.sunday}");
+
+            loadedData = data;
             taskTree.Init();
-            taskNameTmp.text = data.taskName;
-            taskTree.Type = data.seedType;
+            taskNameTmp.text = loadedData.taskName;
+            taskTree.Type = loadedData.seedType;
         }
 
         private void OnDestroy()
@@ -70,6 +152,7 @@ namespace Com.GabrielBernabeu.Cultivation
                 return;
 
             resetBtn.onClick.RemoveListener(OnResetButton);
+            taskCompletedBtn.onClick.RemoveListener(OnTaskCompletedButton);
             Instance = null;
         }
     }
