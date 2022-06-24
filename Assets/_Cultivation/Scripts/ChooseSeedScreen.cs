@@ -23,6 +23,15 @@ namespace Com.GabrielBernabeu.Cultivation {
         [SerializeField] private Button cancelButton = default;
         [SerializeField] private CustomBouncyButton confirmButton = default;
 
+        [Header("DayToggles")]
+        [SerializeField] private CustomToggle monday = default;
+        [SerializeField] private CustomToggle tuesday = default;
+        [SerializeField] private CustomToggle wednesday = default;
+        [SerializeField] private CustomToggle thursday = default;
+        [SerializeField] private CustomToggle friday = default;
+        [SerializeField] private CustomToggle saturday = default;
+        [SerializeField] private CustomToggle sunday = default;
+
         [Header("ExampleTrees")]
         [SerializeField] private Transform sportTree = default;
         [SerializeField] private Transform restingTree = default;
@@ -93,7 +102,7 @@ namespace Com.GabrielBernabeu.Cultivation {
 
         private void Update()
         {
-            if (confirmButton.IsBeingPressed && !lastConfirmButtonPress)
+            if (!confirmButton.IsBeingPressed && lastConfirmButtonPress)
                 FinalConfirm();
 
             lastConfirmButtonPress = confirmButton.IsBeingPressed;
@@ -205,13 +214,19 @@ namespace Com.GabrielBernabeu.Cultivation {
         {
             if (taskInput.text == "")
                 Debug.Log("Please fill the input!");
+            else if (!monday.IsActive && !tuesday.IsActive && !wednesday.IsActive && !thursday.IsActive
+                     && !friday.IsActive && !saturday.IsActive && !sunday.IsActive)
+                Debug.Log("At least one day must be chosen!");
             else
             {
                 Out();
                 confirmSeedGroup.transform.DOScale(confirmSeedGroupFinalScale, fadeDuration)
                     .OnComplete(() => { confirmSeedGroup.transform.localScale = Vector3.one; });
 
-                LocalDataSaving.SaveData(new LocalData(chosenSeedType, taskInput.text));
+                LocalDataSaving.SaveData(new LocalData(chosenSeedType, taskInput.text,
+                                             monday.IsActive, tuesday.IsActive, wednesday.IsActive,
+                                             thursday.IsActive, friday.IsActive, saturday.IsActive, sunday.IsActive));
+
                 TreeScreen.Instance.Load(LocalDataSaving.LoadData().Value);
 
                 ZoomableBg.Instance.ZoomState = ZoomState.TREE;

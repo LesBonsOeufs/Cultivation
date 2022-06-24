@@ -57,6 +57,8 @@ namespace Com.GabrielBernabeu.Cultivation
 
         public void Load(LocalData data)
         {
+            Debug.Log($"{data.monday} {data.tuesday} {data.wednesday} {data.thursday} " +
+                      $"{data.friday} {data.saturday} {data.sunday}");
             taskTree.Init();
             taskNameTmp.text = data.taskName;
             taskTree.Type = data.seedType;
