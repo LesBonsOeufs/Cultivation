@@ -6,6 +6,7 @@
 using UnityEngine;
 using DG.Tweening;
 using Com.GabrielBernabeu.Common.DataManagement;
+using System;
 
 namespace Com.GabrielBernabeu.Cultivation {
     public class Titlecard : MonoBehaviour
@@ -13,10 +14,20 @@ namespace Com.GabrielBernabeu.Cultivation {
         [SerializeField] private float fadeDuration = 0.6f;
         
         private CanvasGroup canvasGroup;
+        private Action doNext;
 
         private void Awake()
         {
             canvasGroup = GetComponent<CanvasGroup>();
+            LocalData? lSavedData = LocalDataSaving.LoadData();
+
+            if (lSavedData == null)
+                doNext = ZoomToChooseScreen;
+            else
+            {
+                doNext = ZoomToTreeScreen;
+                TreeScreen.Instance.Load(lSavedData.Value);
+            }
         }
 
         private void Update()
@@ -28,19 +39,20 @@ namespace Com.GabrielBernabeu.Cultivation {
         private void EnterGame()
         {
             enabled = false;
-
-            if (LocalDataSaving.LoadData() == null)
-            {
-                ZoomableBg.Instance.ZoomState = ZoomState.CLOSE;
-                ZoomableBg.Instance.OnZoomEnded += ToChooseSeedScreen;
-            }
-            else
-            {
-                ZoomableBg.Instance.ZoomState = ZoomState.TREE;
-                ZoomableBg.Instance.OnZoomEnded += ToTreeScreen;
-            }
-                
             canvasGroup.DOFade(0f, fadeDuration);
+            doNext();
+        }
+
+        private void ZoomToChooseScreen()
+        {
+            ZoomableBg.Instance.ZoomState = ZoomState.CLOSE;
+            ZoomableBg.Instance.OnZoomEnded += ToChooseSeedScreen;
+        }
+
+        private void ZoomToTreeScreen()
+        {
+            ZoomableBg.Instance.ZoomState = ZoomState.TREE;
+            ZoomableBg.Instance.OnZoomEnded += ToTreeScreen;
         }
 
         private void ToChooseSeedScreen(ZoomableBg sender)
@@ -56,7 +68,7 @@ namespace Com.GabrielBernabeu.Cultivation {
             ZoomableBg.Instance.OnZoomEnded -= ToTreeScreen;
             gameObject.SetActive(false);
 
-            //TreeScreen.Instance.In();
+            TreeScreen.Instance.In();
         }
 
         private void OnDestroy()

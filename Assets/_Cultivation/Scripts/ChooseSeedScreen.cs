@@ -87,6 +87,8 @@ namespace Com.GabrielBernabeu.Cultivation {
             restingTree.localScale = Vector3.zero;
             socialTree.localScale = Vector3.zero;
             learningTree.localScale = Vector3.zero;
+
+            gameObject.SetActive(false);
         }
 
         private void Update()
@@ -195,7 +197,7 @@ namespace Com.GabrielBernabeu.Cultivation {
             confirmSeedGroup.DOFade(1f, fadeDuration);
             confirmSeedGroup.blocksRaycasts = true;
 
-            lChosenTree.DOMove(new Vector3(0f, -2.1f, 89f), fadeDuration);
+            lChosenTree.DOMove(new Vector3(0f, -2.1f, -1.5f), fadeDuration);
             lChosenTree.DOScale(new Vector3(1539.126f, 1539.126f, 5391.466f), fadeDuration);
         }
 
@@ -210,7 +212,17 @@ namespace Com.GabrielBernabeu.Cultivation {
                     .OnComplete(() => { confirmSeedGroup.transform.localScale = Vector3.one; });
 
                 LocalDataSaving.SaveData(new LocalData(chosenSeedType, taskInput.text));
+                TreeScreen.Instance.Load(LocalDataSaving.LoadData().Value);
+
+                ZoomableBg.Instance.ZoomState = ZoomState.TREE;
+                ZoomableBg.Instance.OnZoomEnded += ToTreeScreen;
             }
+        }
+
+        private void ToTreeScreen(ZoomableBg sender)
+        {
+            ZoomableBg.Instance.OnZoomEnded -= ToTreeScreen;
+            TreeScreen.Instance.In();
         }
 
         private void OnDestroy()
@@ -224,6 +236,9 @@ namespace Com.GabrielBernabeu.Cultivation {
             socialButton.onClick.RemoveListener(ChooseSocial);
             learningButton.onClick.RemoveListener(ChooseLearning);
             cancelButton.onClick.RemoveListener(ToChooseSeed);
+
+            if (ZoomableBg.Instance != null)
+                ZoomableBg.Instance.OnZoomEnded -= ToTreeScreen;
         }
     }
 }
