@@ -11,6 +11,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
 using Com.GabrielBernabeu.Common;
+using Com.GabrielBernabeu.Cultivation.AR;
 
 namespace Com.GabrielBernabeu.Cultivation 
 {
@@ -30,6 +31,7 @@ namespace Com.GabrielBernabeu.Cultivation
         [Header("Buttons")]
         [SerializeField] private Button resetBtn = default;
         [SerializeField] private Button taskCompletedBtn = default;
+        [SerializeField] private Button arBtn = default;
 
         private CanvasGroup canvasGroup;
         private LocalData loadedData;
@@ -99,6 +101,7 @@ namespace Com.GabrielBernabeu.Cultivation
 
             resetBtn.onClick.AddListener(OnResetButton);
             taskCompletedBtn.onClick.AddListener(OnTaskCompletedButton);
+            arBtn.onClick.AddListener(OnARButton);
 
             gameObject.SetActive(false);
         }
@@ -113,7 +116,7 @@ namespace Com.GabrielBernabeu.Cultivation
         {
             if (IsDayCorrect)
             {
-                if (true/*!WasPressedToday*/)
+                if (!WasPressedToday)
                     TaskDone();
                 else
                 {
@@ -128,6 +131,11 @@ namespace Com.GabrielBernabeu.Cultivation
                 TextFeedbackMaker.Instance.CreateText("Incorrect day!", Color.red, 1f, Color.red, 1f, 0f, 1f, Color.black,
                                                       3f, 2f, true, Camera.main.transform.position, new Vector2(3f, 1f));
             }
+        }
+
+        private void OnARButton()
+        {
+            ARManager.Instance.OpenAR(taskTree);
         }
 
         private void TaskDone()
@@ -172,6 +180,7 @@ namespace Com.GabrielBernabeu.Cultivation
 
             resetBtn.onClick.RemoveListener(OnResetButton);
             taskCompletedBtn.onClick.RemoveListener(OnTaskCompletedButton);
+            arBtn.onClick.RemoveListener(OnARButton);
             Instance = null;
         }
     }

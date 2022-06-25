@@ -16,7 +16,7 @@ namespace Com.GabrielBernabeu.Cultivation {
         private CanvasGroup canvasGroup;
         private Action doNext;
 
-        private void Awake()
+        private void Start()
         {
             canvasGroup = GetComponent<CanvasGroup>();
             LocalData? lSavedData = LocalDataSaving.LoadData();
