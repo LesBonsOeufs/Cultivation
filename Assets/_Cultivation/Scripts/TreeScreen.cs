@@ -16,8 +16,15 @@ namespace Com.GabrielBernabeu.Cultivation
 {
     public class TreeScreen : MonoBehaviour
     {
+        private const string BEGINNING_DATE_PREFIX = "Beginning date: ";
+        private const string NB_TASKS_DONE_PREFIX = "Done ";
+        private const string NB_TASKS_DONE_SUFFIX_IF_EQUAL_ONE = " time in total";
+        private const string NB_TASKS_DONE_SUFFIX = " times in total";
+
         [SerializeField] private TaskTree taskTree = default;
         [SerializeField] private TextMeshProUGUI taskNameTmp = default;
+        [SerializeField] private TextMeshProUGUI beginDateTmp = default;
+        [SerializeField] private TextMeshProUGUI nbTasksDoneTmp = default;
         [SerializeField] private float fadeDuration = 0.6f;
 
         [Header("Buttons")]
@@ -107,11 +114,7 @@ namespace Com.GabrielBernabeu.Cultivation
             if (IsDayCorrect)
             {
                 if (!WasPressedToday)
-                {
-                    Debug.Log("well done!");
-                    loadedData.lastTaskDoneDate = DateTime.Now.ToShortDateString();
-                    LocalDataSaving.SaveData(loadedData);
-                }
+                    TaskDone();
                 else
                 {
                     Debug.Log("Button already pressed today!");
@@ -125,6 +128,15 @@ namespace Com.GabrielBernabeu.Cultivation
                 TextFeedbackMaker.Instance.CreateText("Incorrect day!", Color.red, 1f, Color.red, 1f, 0f, 1f, Color.black,
                                                       3f, 2f, true, Camera.main.transform.position, new Vector2(3f, 1f));
             }
+        }
+
+        private void TaskDone()
+        {
+            Debug.Log("well done!");
+            loadedData.tasksDoneSinceStarted++;
+            loadedData.lastTaskDoneDate = DateTime.Now.ToShortDateString();
+            LocalDataSaving.SaveData(loadedData);
+            SubLoad(loadedData);
         }
 
         public void In()
@@ -141,9 +153,19 @@ namespace Com.GabrielBernabeu.Cultivation
                       $"{data.friday} {data.saturday} {data.sunday}");
 
             loadedData = data;
-            taskTree.Init();
             taskNameTmp.text = loadedData.taskName;
+            SubLoad(data);
+        }
+
+        private void SubLoad(LocalData data)
+        {
+            int lTasksDoneSinceStarted = loadedData.tasksDoneSinceStarted;
+            string lNbTasksDoneSuffix = lTasksDoneSinceStarted == 1 ? NB_TASKS_DONE_SUFFIX_IF_EQUAL_ONE : NB_TASKS_DONE_SUFFIX;
+
+            beginDateTmp.text = BEGINNING_DATE_PREFIX + loadedData.beginningDate;
+            nbTasksDoneTmp.text = NB_TASKS_DONE_PREFIX + loadedData.tasksDoneSinceStarted + lNbTasksDoneSuffix;
             taskTree.Type = loadedData.seedType;
+            taskTree.Init(data.seedType);
         }
 
         private void OnDestroy()

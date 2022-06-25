@@ -19,8 +19,8 @@ namespace Com.GabrielBernabeu.Common.DataManagement {
         public string beginningDate;
         public string lastTaskDoneDate;
 
-        public int daysInARow;
         public int tasksDoneSinceStarted;
+        public int daysInARow;
 
         public LocalData(SeedType seedType, string taskName, 
                          bool monday, bool tuesday, bool wednesday, bool thursday, bool friday, bool saturday, bool sunday)
@@ -39,8 +39,8 @@ namespace Com.GabrielBernabeu.Common.DataManagement {
             beginningDate = DateTime.Now.ToShortDateString();
             lastTaskDoneDate = DateTime.Now.AddDays(-1).ToShortDateString();
 
-            daysInARow = 0;
             tasksDoneSinceStarted = 0;
+            daysInARow = 0;
         }
     }
 }

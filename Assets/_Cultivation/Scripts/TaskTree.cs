@@ -25,34 +25,7 @@ namespace Com.GabrielBernabeu.Cultivation
 
             set
             {
-                if (_type == value)
-                    return;
-
-                _type = value;
-
-                if (tree != null)
-                    Destroy(tree.gameObject);
-
-                string pathSuffix = "";
-
-                switch (_type)
-                {
-                    case SeedType.SPORT:
-                        pathSuffix = SPORT_SUFFIX;
-                        break;
-                    case SeedType.RESTING:
-                        pathSuffix = RESTING_SUFFIX;
-                        break;
-                    case SeedType.SOCIAL:
-                        pathSuffix = SOCIAL_SUFFIX;
-                        break;
-                    case SeedType.LEARNING:
-                        pathSuffix = LEARNING_SUFFIX;
-                        break;
-                }
-
-                tree = Instantiate(Resources.Load(
-                    MODELS_PATH + STEP_PREFIX + "1" + pathSuffix, typeof(GameObject)) as GameObject, transform).transform;
+                
             }
         }
         private SeedType? _type = null;
@@ -62,9 +35,36 @@ namespace Com.GabrielBernabeu.Cultivation
             Hide();
         }
 
-        public void Init()
+        public void Init(SeedType type)
         {
+            if (pot != null)
+                Destroy(pot.gameObject);
+
             pot = Instantiate(Resources.Load(MODELS_PATH + POT, typeof(GameObject)) as GameObject, transform).transform;
+
+            if (tree != null)
+                Destroy(tree.gameObject);
+
+            string pathSuffix = "";
+
+            switch (type)
+            {
+                case SeedType.SPORT:
+                    pathSuffix = SPORT_SUFFIX;
+                    break;
+                case SeedType.RESTING:
+                    pathSuffix = RESTING_SUFFIX;
+                    break;
+                case SeedType.SOCIAL:
+                    pathSuffix = SOCIAL_SUFFIX;
+                    break;
+                case SeedType.LEARNING:
+                    pathSuffix = LEARNING_SUFFIX;
+                    break;
+            }
+
+            tree = Instantiate(Resources.Load(
+                MODELS_PATH + STEP_PREFIX + "1" + pathSuffix, typeof(GameObject)) as GameObject, transform).transform;
         }
 
         public void Show()
