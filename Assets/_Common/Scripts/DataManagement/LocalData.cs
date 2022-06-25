@@ -16,7 +16,11 @@ namespace Com.GabrielBernabeu.Common.DataManagement {
         public bool saturday;
         public bool sunday;
 
+        public string beginningDate;
         public string lastTaskDoneDate;
+
+        public int daysInARow;
+        public int tasksDoneSinceStarted;
 
         public LocalData(SeedType seedType, string taskName, 
                          bool monday, bool tuesday, bool wednesday, bool thursday, bool friday, bool saturday, bool sunday)
@@ -32,7 +36,11 @@ namespace Com.GabrielBernabeu.Common.DataManagement {
             this.saturday = saturday;
             this.sunday = sunday;
 
+            beginningDate = DateTime.Now.ToShortDateString();
             lastTaskDoneDate = DateTime.Now.AddDays(-1).ToShortDateString();
+
+            daysInARow = 0;
+            tasksDoneSinceStarted = 0;
         }
     }
 }
