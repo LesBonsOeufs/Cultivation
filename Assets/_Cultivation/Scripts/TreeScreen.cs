@@ -135,7 +135,7 @@ namespace Com.GabrielBernabeu.Cultivation
 
         private void OnARButton()
         {
-            ARManager.Instance.OpenAR(taskTree);
+            ARManager.Instance.OpenAR(taskTree.TreeContainer);
         }
 
         private void TaskDone()
@@ -169,7 +169,6 @@ namespace Com.GabrielBernabeu.Cultivation
 
             beginDateTmp.text = BEGINNING_DATE_PREFIX + loadedData.beginningDate;
             nbTasksDoneTmp.text = NB_TASKS_DONE_PREFIX + loadedData.tasksDoneSinceStarted + lNbTasksDoneSuffix;
-            taskTree.Type = loadedData.seedType;
             taskTree.Init(data.seedType, data.tasksDoneSinceStarted);
         }
 

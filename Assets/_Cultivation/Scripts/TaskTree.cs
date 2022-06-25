@@ -13,22 +13,12 @@ namespace Com.GabrielBernabeu.Cultivation
         private const string SOCIAL_SUFFIX = ".So";
         private const string LEARNING_SUFFIX = ".L";
 
+        [SerializeField] private Transform _treeContainer = default;
+
+        public Transform TreeContainer => _treeContainer;
+
         private Transform pot;
         private Transform tree;
-
-        public SeedType? Type
-        {
-            get
-            {
-                return _type;
-            }
-
-            set
-            {
-                
-            }
-        }
-        private SeedType? _type = null;
 
         private void Awake()
         {
@@ -40,7 +30,7 @@ namespace Com.GabrielBernabeu.Cultivation
             if (pot != null)
                 Destroy(pot.gameObject);
 
-            pot = Instantiate(Resources.Load(MODELS_PATH + POT, typeof(GameObject)) as GameObject, transform).transform;
+            pot = Instantiate(Resources.Load(MODELS_PATH + POT, typeof(GameObject)) as GameObject, TreeContainer).transform;
 
             if (tree != null)
                 Destroy(tree.gameObject);
@@ -81,7 +71,7 @@ namespace Com.GabrielBernabeu.Cultivation
                 stepSuffix = "7";
 
             tree = Instantiate(Resources.Load(
-                MODELS_PATH + STEP_PREFIX + stepSuffix + typeSuffix, typeof(GameObject)) as GameObject, transform).transform;
+                MODELS_PATH + STEP_PREFIX + stepSuffix + typeSuffix, typeof(GameObject)) as GameObject, TreeContainer).transform;
         }
 
         public void Show()

@@ -14,7 +14,8 @@ namespace Com.GabrielBernabeu.Cultivation.AR {
         private void Start()
         {
             tree = ARManager.Instance.Tree;
-            tree.SetParent(treeContainer);
+            tree.SetParent(treeContainer, false);
+            tree.gameObject.SetActive(false);
             tree.localPosition = Vector3.zero;
         }
 

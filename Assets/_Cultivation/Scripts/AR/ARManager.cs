@@ -28,10 +28,10 @@ namespace Com.GabrielBernabeu.Cultivation.AR {
             DontDestroyOnLoad(gameObject);
         }
 
-        public void OpenAR(TaskTree tree)
+        public void OpenAR(Transform tree)
         {
-            tree.transform.SetParent(transform);
-            Tree = tree.transform;
+            tree.SetParent(transform, false);
+            Tree = tree;
             SceneManager.LoadScene(arSceneIndex);
         }
 
