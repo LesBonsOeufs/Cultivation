@@ -113,7 +113,7 @@ namespace Com.GabrielBernabeu.Cultivation
         {
             if (IsDayCorrect)
             {
-                if (!WasPressedToday)
+                if (true/*!WasPressedToday*/)
                     TaskDone();
                 else
                 {
@@ -149,9 +149,6 @@ namespace Com.GabrielBernabeu.Cultivation
 
         public void Load(LocalData data)
         {
-            Debug.Log($"{data.monday} {data.tuesday} {data.wednesday} {data.thursday} " +
-                      $"{data.friday} {data.saturday} {data.sunday}");
-
             loadedData = data;
             taskNameTmp.text = loadedData.taskName;
             SubLoad(data);
@@ -165,7 +162,7 @@ namespace Com.GabrielBernabeu.Cultivation
             beginDateTmp.text = BEGINNING_DATE_PREFIX + loadedData.beginningDate;
             nbTasksDoneTmp.text = NB_TASKS_DONE_PREFIX + loadedData.tasksDoneSinceStarted + lNbTasksDoneSuffix;
             taskTree.Type = loadedData.seedType;
-            taskTree.Init(data.seedType);
+            taskTree.Init(data.seedType, data.tasksDoneSinceStarted);
         }
 
         private void OnDestroy()

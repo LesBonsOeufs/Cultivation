@@ -35,7 +35,7 @@ namespace Com.GabrielBernabeu.Cultivation
             Hide();
         }
 
-        public void Init(SeedType type)
+        public void Init(SeedType type, int age)
         {
             if (pot != null)
                 Destroy(pot.gameObject);
@@ -45,26 +45,43 @@ namespace Com.GabrielBernabeu.Cultivation
             if (tree != null)
                 Destroy(tree.gameObject);
 
-            string pathSuffix = "";
+            string typeSuffix = "";
 
             switch (type)
             {
                 case SeedType.SPORT:
-                    pathSuffix = SPORT_SUFFIX;
+                    typeSuffix = SPORT_SUFFIX;
                     break;
                 case SeedType.RESTING:
-                    pathSuffix = RESTING_SUFFIX;
+                    typeSuffix = RESTING_SUFFIX;
                     break;
                 case SeedType.SOCIAL:
-                    pathSuffix = SOCIAL_SUFFIX;
+                    typeSuffix = SOCIAL_SUFFIX;
                     break;
                 case SeedType.LEARNING:
-                    pathSuffix = LEARNING_SUFFIX;
+                    typeSuffix = LEARNING_SUFFIX;
                     break;
             }
 
+            string stepSuffix = "";
+
+            if (age <= 6)
+                stepSuffix = "1";
+            else if (age <= 14)
+                stepSuffix = "2";
+            else if (age <= 22)
+                stepSuffix = "3";
+            else if (age <= 30)
+                stepSuffix = "4";
+            else if (age <= 38)
+                stepSuffix = "5";
+            else if (age <= 46)
+                stepSuffix = "6";
+            else
+                stepSuffix = "7";
+
             tree = Instantiate(Resources.Load(
-                MODELS_PATH + STEP_PREFIX + "1" + pathSuffix, typeof(GameObject)) as GameObject, transform).transform;
+                MODELS_PATH + STEP_PREFIX + stepSuffix + typeSuffix, typeof(GameObject)) as GameObject, transform).transform;
         }
 
         public void Show()
