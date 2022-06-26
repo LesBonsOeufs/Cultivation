@@ -30,7 +30,7 @@ namespace Com.GabrielBernabeu.Cultivation.AR {
 
         public void OpenAR(Transform tree)
         {
-            tree.SetParent(transform, false);
+            tree.SetParent(transform);
             Tree = tree;
             SceneManager.LoadScene(arSceneIndex);
         }
