@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using TMPro;
 using Com.GabrielBernabeu.Common.CustomButtons;
 using Com.GabrielBernabeu.Common.DataManagement;
+using Com.GabrielBernabeu.Common;
 
 namespace Com.GabrielBernabeu.Cultivation {
     public class ChooseSeedScreen : MonoBehaviour
@@ -213,10 +214,16 @@ namespace Com.GabrielBernabeu.Cultivation {
         private void FinalConfirm()
         {
             if (taskInput.text == "")
-                Debug.Log("Please fill the input!");
+            {
+                TextFeedbackMaker.Instance.CreateText("Please write a task name!", Color.red, 1f, Color.red, 0.5f, 1f, 0f, Color.red,
+                                                  0f, 0.7f, false, confirmButton.transform.position, new Vector2(3f, 1f));
+            }
             else if (!monday.IsSwitchedOn && !tuesday.IsSwitchedOn && !wednesday.IsSwitchedOn && !thursday.IsSwitchedOn
                      && !friday.IsSwitchedOn && !saturday.IsSwitchedOn && !sunday.IsSwitchedOn)
-                Debug.Log("At least one day must be chosen!");
+            {
+                TextFeedbackMaker.Instance.CreateText("At least one day must be chosen!", Color.red, 1f, Color.red, 0.5f, 1f, 0f, Color.red,
+                                                  0f, 0.7f, false, confirmButton.transform.position, new Vector2(3f, 1f));
+            }
             else
             {
                 Out();

@@ -32,7 +32,8 @@ namespace Com.GabrielBernabeu.Cultivation.AR {
             if (lHits.Count > 0)
             {
                 transform.position = lHits[0].pose.position;
-                transform.rotation = lHits[0].pose.rotation;
+                //No rotation so that user can rotate around the object
+                //transform.rotation = lHits[0].pose.rotation;
             }
         }
     }

@@ -144,14 +144,12 @@ namespace Com.GabrielBernabeu.Cultivation
                     TaskDone();
                 else
                 {
-                    Debug.Log("Button already pressed today!");
                     TextFeedbackMaker.Instance.CreateText("Button already pressed today!", Color.red, 1f, Color.red, 1f, 0f, 1f, Color.black,
                                                       3f, 2f, true, Camera.main.transform.position, new Vector2(3f, 1f));
                 }
             }
             else
             {
-                Debug.Log("Incorrect day!");
                 TextFeedbackMaker.Instance.CreateText("Incorrect day!", Color.red, 1f, Color.red, 1f, 0f, 1f, Color.black,
                                                       3f, 2f, true, Camera.main.transform.position, new Vector2(3f, 1f));
             }
