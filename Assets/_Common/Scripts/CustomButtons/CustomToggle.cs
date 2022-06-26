@@ -5,34 +5,34 @@ namespace Com.GabrielBernabeu.Common.CustomButtons {
     public delegate void CustomToggleEventHandler(bool isActive);
     public class CustomToggle : MonoBehaviour, IPointerUpHandler
     {
-        public bool IsActive
+        public bool IsSwitchedOn
         {
             get
             {
-                return _isActive;
+                return _isSwitchedOn;
             }
 
             protected set
             {
-                if (_isActive == value)
+                if (_isSwitchedOn == value)
                     return;
 
-                _isActive = value;
+                _isSwitchedOn = value;
                 OnValueChangedInvocation();
             }
         }
-        private bool _isActive = false;
+        private bool _isSwitchedOn = false;
 
         public event CustomToggleEventHandler OnValueChanged;
 
         public virtual void OnPointerUp(PointerEventData eventData)
         {
-            IsActive = !IsActive;
+            IsSwitchedOn = !IsSwitchedOn;
         }
 
         protected virtual void OnValueChangedInvocation()
         {
-            OnValueChanged?.Invoke(IsActive);
+            OnValueChanged?.Invoke(IsSwitchedOn);
         }
 
         private void OnDestroy()

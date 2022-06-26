@@ -1381,6 +1381,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 956797789}
     m_Modifications:
+    - target: {fileID: 4795679995208521335, guid: 51766b927e9a3594d9cdc10112cc4942, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 115
+      objectReference: {fileID: 0}
+    - target: {fileID: 4795679995208521335, guid: 51766b927e9a3594d9cdc10112cc4942, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 115.000244
+      objectReference: {fileID: 0}
     - target: {fileID: 9216355057319104740, guid: 51766b927e9a3594d9cdc10112cc4942, type: 3}
       propertyPath: m_Name
       value: TreeScreen

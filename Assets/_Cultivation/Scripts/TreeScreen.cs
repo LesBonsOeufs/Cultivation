@@ -12,6 +12,7 @@ using UnityEngine.SceneManagement;
 using System;
 using Com.GabrielBernabeu.Common;
 using Com.GabrielBernabeu.Cultivation.AR;
+using Com.GabrielBernabeu.Common.CustomButtons;
 
 namespace Com.GabrielBernabeu.Cultivation 
 {
@@ -32,6 +33,7 @@ namespace Com.GabrielBernabeu.Cultivation
         [SerializeField] private Button resetBtn = default;
         [SerializeField] private Button taskCompletedBtn = default;
         [SerializeField] private Button arBtn = default;
+        [SerializeField] private CustomToggle cheatToggle = default;
 
         private CanvasGroup canvasGroup;
         private LocalData loadedData;
@@ -106,6 +108,22 @@ namespace Com.GabrielBernabeu.Cultivation
             gameObject.SetActive(false);
         }
 
+        private void Start()
+        {
+            arBtn.gameObject.SetActive(false);
+            ARManager.Instance.CheckARSupport(OnARNotSupported, OnARSupported);
+        }
+
+        private void OnARNotSupported()
+        {
+            arBtn.gameObject.SetActive(false);
+        }
+
+        private void OnARSupported()
+        {
+            arBtn.gameObject.SetActive(true);
+        }
+
         private void OnResetButton()
         {
             LocalDataSaving.DeleteData();
@@ -114,6 +132,12 @@ namespace Com.GabrielBernabeu.Cultivation
 
         private void OnTaskCompletedButton()
         {
+            if (cheatToggle.IsSwitchedOn)
+            {
+                TaskDone();
+                return;
+            }
+
             if (IsDayCorrect)
             {
                 if (!WasPressedToday)

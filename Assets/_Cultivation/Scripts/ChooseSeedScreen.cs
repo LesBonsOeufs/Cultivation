@@ -214,8 +214,8 @@ namespace Com.GabrielBernabeu.Cultivation {
         {
             if (taskInput.text == "")
                 Debug.Log("Please fill the input!");
-            else if (!monday.IsActive && !tuesday.IsActive && !wednesday.IsActive && !thursday.IsActive
-                     && !friday.IsActive && !saturday.IsActive && !sunday.IsActive)
+            else if (!monday.IsSwitchedOn && !tuesday.IsSwitchedOn && !wednesday.IsSwitchedOn && !thursday.IsSwitchedOn
+                     && !friday.IsSwitchedOn && !saturday.IsSwitchedOn && !sunday.IsSwitchedOn)
                 Debug.Log("At least one day must be chosen!");
             else
             {
@@ -224,8 +224,8 @@ namespace Com.GabrielBernabeu.Cultivation {
                     .OnComplete(() => { confirmSeedGroup.transform.localScale = Vector3.one; });
 
                 LocalDataSaving.SaveData(new LocalData(chosenSeedType, taskInput.text,
-                                             monday.IsActive, tuesday.IsActive, wednesday.IsActive,
-                                             thursday.IsActive, friday.IsActive, saturday.IsActive, sunday.IsActive));
+                                             monday.IsSwitchedOn, tuesday.IsSwitchedOn, wednesday.IsSwitchedOn,
+                                             thursday.IsSwitchedOn, friday.IsSwitchedOn, saturday.IsSwitchedOn, sunday.IsSwitchedOn));
 
                 TreeScreen.Instance.Load(LocalDataSaving.LoadData().Value);
 

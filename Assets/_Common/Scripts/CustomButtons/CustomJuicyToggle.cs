@@ -42,7 +42,7 @@ namespace Com.GabrielBernabeu.Common.CustomButtons {
             base.OnValueChangedInvocation();
             DOTween.Kill(transform, true);
 
-            if (IsActive)
+            if (IsSwitchedOn)
             {
                 DOTween.Sequence(transform)
                     .Append(transform.DOScale(activatedScale, activatedAnimDuration))
