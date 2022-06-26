@@ -35,6 +35,15 @@ namespace Com.GabrielBernabeu.Cultivation
         [SerializeField] private Button arBtn = default;
         [SerializeField] private CustomToggle cheatToggle = default;
 
+        [Header("CorrectDays")]
+        [SerializeField] private TextMeshProUGUI mondayIndicator = default;
+        [SerializeField] private TextMeshProUGUI tuesdayIndicator = default;
+        [SerializeField] private TextMeshProUGUI wednesdayIndicator = default;
+        [SerializeField] private TextMeshProUGUI thursdayIndicator = default;
+        [SerializeField] private TextMeshProUGUI fridayIndicator = default;
+        [SerializeField] private TextMeshProUGUI saturdayIndicator = default;
+        [SerializeField] private TextMeshProUGUI sundayIndicator = default;
+
         private CanvasGroup canvasGroup;
         private LocalData loadedData;
 
@@ -181,6 +190,22 @@ namespace Com.GabrielBernabeu.Cultivation
         {
             loadedData = data;
             taskNameTmp.text = loadedData.taskName;
+
+            if (!loadedData.monday)
+                mondayIndicator.gameObject.SetActive(false);
+            if (!loadedData.tuesday)
+                tuesdayIndicator.gameObject.SetActive(false);
+            if (!loadedData.wednesday)
+                wednesdayIndicator.gameObject.SetActive(false);
+            if (!loadedData.thursday)
+                thursdayIndicator.gameObject.SetActive(false);
+            if (!loadedData.friday)
+                fridayIndicator.gameObject.SetActive(false);
+            if (!loadedData.saturday)
+                saturdayIndicator.gameObject.SetActive(false);
+            if (!loadedData.sunday)
+                sundayIndicator.gameObject.SetActive(false);
+
             SubLoad(data);
         }
 
