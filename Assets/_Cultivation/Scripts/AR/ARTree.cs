@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
@@ -8,11 +9,32 @@ namespace Com.GabrielBernabeu.Cultivation.AR {
     {
         [SerializeField] private ARRaycastManager arRaycastManager;
         [SerializeField] private Transform treeContainer = default;
+
+        [Header("InfoTextElements")]
+        [SerializeField] private TextMeshProUGUI infoTmp = default;
+        [SerializeField] private string infoTextIfMoving = "Touch to place!";
+        [SerializeField] private string infoTextIfPlaced = "Touch to move!";
         
         private Transform tree;
 
+        private bool IsPlaced
+        {
+            get
+            {
+                return _isPlaced;
+            }
+
+            set
+            {
+                _isPlaced = value;
+                infoTmp.text = _isPlaced ? infoTextIfPlaced : infoTextIfMoving;
+            }
+        }
+        private bool _isPlaced;
+
         private void Start()
         {
+            IsPlaced = false;
             tree = ARManager.Instance.Tree;
             tree.SetParent(treeContainer, false);
             tree.localPosition = Vector3.zero;
@@ -20,7 +42,11 @@ namespace Com.GabrielBernabeu.Cultivation.AR {
 
         private void Update()
         {
-            UpdateTreePosition();
+            if (Input.GetMouseButtonDown(0))
+                IsPlaced = !IsPlaced;
+
+            if (!IsPlaced)
+                UpdateTreePosition();
         }
 
         private void UpdateTreePosition()
