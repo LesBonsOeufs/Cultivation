@@ -234,7 +234,9 @@ namespace Com.GabrielBernabeu.Cultivation {
                                              monday.IsSwitchedOn, tuesday.IsSwitchedOn, wednesday.IsSwitchedOn,
                                              thursday.IsSwitchedOn, friday.IsSwitchedOn, saturday.IsSwitchedOn, sunday.IsSwitchedOn));
 
-                TreeScreen.Instance.Load(LocalDataSaving.LoadData().Value);
+                LocalData lLocalData = LocalDataSaving.LoadData().Value;
+                MobileNotificationManager.Instance.MakeRepeatingNotifications(lLocalData);
+                TreeScreen.Instance.Load(lLocalData);
 
                 ZoomableBg.Instance.ZoomState = ZoomState.TREE;
                 ZoomableBg.Instance.OnZoomEnded += ToTreeScreen;

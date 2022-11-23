@@ -136,6 +136,7 @@ namespace Com.GabrielBernabeu.Cultivation
         private void OnResetButton()
         {
             LocalDataSaving.DeleteData();
+            MobileNotificationManager.Instance.ResetNotifications();
             SceneManager.LoadScene(0);
         }
 
