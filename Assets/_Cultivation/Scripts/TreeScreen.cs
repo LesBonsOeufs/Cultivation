@@ -114,7 +114,7 @@ namespace Com.GabrielBernabeu.Cultivation
             taskCompletedBtn.OnClick.AddListener(OnTaskCompletedButton);
             arBtn.onClick.AddListener(OnARButton);
 
-            #if DEVELOPMENT_BUILD
+            #if !DEVELOPMENT_BUILD
                 cheatToggle.gameObject.SetActive(false);
             #endif
 
@@ -125,6 +125,12 @@ namespace Com.GabrielBernabeu.Cultivation
         {
             arBtn.gameObject.SetActive(false);
             ARManager.Instance.CheckARSupport(OnARNotSupported, OnARSupported);
+
+            bool lIsBtnPressable = IsDayCorrect && !WasPressedToday;
+            taskCompletedBtn.isBreathing = lIsBtnPressable;
+            
+            if (!lIsBtnPressable)
+                taskCompletedBtn.KillTweens();
         }
 
         private void OnARNotSupported()
@@ -177,6 +183,8 @@ namespace Com.GabrielBernabeu.Cultivation
         private void TaskDone()
         {
             Debug.Log("well done!");
+            taskCompletedBtn.isBreathing = false;
+
             loadedData.tasksDoneSinceStarted++;
             loadedData.lastTaskDoneDate = DateTime.Now.ToShortDateString();
             LocalDataSaving.SaveData(loadedData);

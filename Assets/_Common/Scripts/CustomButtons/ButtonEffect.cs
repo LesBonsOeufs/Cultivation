@@ -27,7 +27,7 @@ namespace Com.GabrielBernabeu.Common.CustomButtons
         [SerializeField] private float scaleDownTarget = 0.7f;
         [SerializeField] private float durationOnPoinertDown = 0.5f;
         [Header("Values Infinite Idle Breathing")]
-        [SerializeField] private bool isBreathing = false;
+        [SerializeField] public bool isBreathing = false;
         [SerializeField] private float scaleIdleTarget = 1.2f;
         [SerializeField] private float duration = 0.5f;
         [Space]
@@ -64,8 +64,7 @@ namespace Com.GabrielBernabeu.Common.CustomButtons
         public void OnPointerEnter(PointerEventData eventData)
         {
             OnButtonHighlighted();
-            DOTween.Complete(transform);
-            DOTween.Kill(transform);
+            KillTweens();
             transform.DOScale(initScale * scaleTarget, durationOnPoinertEnter).SetUpdate(true);
         }
 
@@ -88,8 +87,7 @@ namespace Com.GabrielBernabeu.Common.CustomButtons
                 return;
 #endif
 
-            DOTween.Complete(transform);
-            DOTween.Kill(transform);
+            KillTweens();
 
             transform.DOScale(initScale, durationOnPointerClick).SetUpdate(true);
 
@@ -104,8 +102,7 @@ namespace Com.GabrielBernabeu.Common.CustomButtons
 #endif
 
             OnButtonPressed();
-            DOTween.Complete(transform);
-            DOTween.Kill(transform);
+            KillTweens();
             transform.DOScale(initScale * scaleDownTarget, durationOnPoinertDown).SetUpdate(true);
         }
 
@@ -114,6 +111,12 @@ namespace Com.GabrielBernabeu.Common.CustomButtons
             DOTween.Sequence(transform).SetLoops(-1)
                 .Append(transform.DOScale(scaleIdleTarget, duration).SetEase(Ease.InOutSine))
                 .Append(transform.DOScale(initScale, duration).SetEase(Ease.InOutSine)).SetUpdate(true);
+        }
+
+        public void KillTweens()
+        {
+            DOTween.Complete(transform);
+            DOTween.Kill(transform);
         }
 
         private void OnDestroy()
