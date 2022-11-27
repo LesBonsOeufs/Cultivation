@@ -12,8 +12,9 @@ namespace Com.GabrielBernabeu.Cultivation
 {
     public class MobileNotificationManager : MonoBehaviour
     {
+        private static int id = 0;
+
         private AndroidNotificationChannel defaultChannel;
-        private int notificationId;
 
         public static MobileNotificationManager Instance { get; private set; }
 
@@ -31,16 +32,6 @@ namespace Com.GabrielBernabeu.Cultivation
 
         private void Start()
         {
-            defaultChannel = new AndroidNotificationChannel()
-            {
-                Id = "default_channel",
-                Name = "Default Channel",
-                Description = "For Generic Notifications",
-                Importance = Importance.Default
-            };
-
-            AndroidNotificationCenter.RegisterNotificationChannel(defaultChannel);
-
             AndroidNotificationCenter.NotificationReceivedCallback lReceivedNotificationHandler =
                 delegate (AndroidNotificationIntentData data)
                 {
@@ -60,18 +51,12 @@ namespace Com.GabrielBernabeu.Cultivation
             {
                 Debug.Log("App was opened with a notification!");
             }
-
-            CleanDisplayedNotifications();
-        }
-
-        public void CleanDisplayedNotifications()
-        {
-            AndroidNotificationCenter.CancelAllDisplayedNotifications();
         }
 
         public void ResetNotifications()
         {
             AndroidNotificationCenter.CancelAllNotifications();
+            AndroidNotificationCenter.DeleteNotificationChannel(defaultChannel.Id);
         }
 
         public void MakeNotification(string title, string text, DateTime fireTime, TimeSpan repeatInterval = default)
@@ -83,51 +68,64 @@ namespace Com.GabrielBernabeu.Cultivation
                 SmallIcon = "logo_small",
                 LargeIcon = "logo_large",
                 FireTime = fireTime,
-                RepeatInterval = repeatInterval
+                RepeatInterval = repeatInterval,
+                ShouldAutoCancel = true
             };
 
-            notificationId = AndroidNotificationCenter.SendNotification(lNotification, "default_channel");
+            Debug.Log(fireTime);
+            AndroidNotificationCenter.SendNotificationWithExplicitID(lNotification, defaultChannel.Id, id++);
         }
 
-        public void MakeRepeatingNotifications(LocalData data)
+        public void InitRepeatingNotifications(LocalData data)
         {
+            defaultChannel = new AndroidNotificationChannel()
+            {
+                Id = "default_channel",
+                Name = "Default Channel",
+                Description = "For Generic Notifications",
+                Importance = Importance.Default
+            };
+
+            AndroidNotificationCenter.RegisterNotificationChannel(defaultChannel);
+
             string lNotificationTitle = "Complete today's task!";
             string lNotificationText = "Get ready for your " + data.taskName + " session!";
+            TimeSpan lWeekSpan = new TimeSpan(7, 0, 0, 0);
 
             if (data.monday)
             {
                 MakeNotification(lNotificationTitle, lNotificationText,
-                    GetNextDayOfWeekDateAtHour(DayOfWeek.Monday), new TimeSpan(7, 0, 0, 0));
+                    GetNextDayOfWeekDateAtHour(DayOfWeek.Monday), lWeekSpan);
             }
             if (data.tuesday)
             {
                 MakeNotification(lNotificationTitle, lNotificationText,
-                    GetNextDayOfWeekDateAtHour(DayOfWeek.Tuesday), new TimeSpan(7, 0, 0, 0));
+                    GetNextDayOfWeekDateAtHour(DayOfWeek.Tuesday), lWeekSpan);
             }
             if (data.wednesday)
             {
                 MakeNotification(lNotificationTitle, lNotificationText,
-                    GetNextDayOfWeekDateAtHour(DayOfWeek.Wednesday), new TimeSpan(7, 0, 0, 0));
+                    GetNextDayOfWeekDateAtHour(DayOfWeek.Wednesday), lWeekSpan);
             }
             if (data.thursday)
             {
                 MakeNotification(lNotificationTitle, lNotificationText,
-                    GetNextDayOfWeekDateAtHour(DayOfWeek.Thursday), new TimeSpan(7, 0, 0, 0));
+                    GetNextDayOfWeekDateAtHour(DayOfWeek.Thursday), lWeekSpan);
             }
             if (data.friday)
             {
                 MakeNotification(lNotificationTitle, lNotificationText,
-                    GetNextDayOfWeekDateAtHour(DayOfWeek.Friday), new TimeSpan(7, 0, 0, 0));
+                    GetNextDayOfWeekDateAtHour(DayOfWeek.Friday), lWeekSpan);
             }
             if (data.saturday)
             {
                 MakeNotification(lNotificationTitle, lNotificationText,
-                    GetNextDayOfWeekDateAtHour(DayOfWeek.Saturday), new TimeSpan(7, 0, 0, 0));
+                    GetNextDayOfWeekDateAtHour(DayOfWeek.Saturday), lWeekSpan);
             }
             if (data.sunday)
             {
                 MakeNotification(lNotificationTitle, lNotificationText,
-                    GetNextDayOfWeekDateAtHour(DayOfWeek.Sunday), new TimeSpan(7, 0, 0, 0));
+                    GetNextDayOfWeekDateAtHour(DayOfWeek.Sunday), lWeekSpan);
             }
         }
 
@@ -137,7 +135,7 @@ namespace Com.GabrielBernabeu.Cultivation
             {
                 Debug.LogError("Hour must be between 0 and 24!");
                 return new DateTime();
-            }    
+            }
 
             DateTime lToday = DateTime.Today;
             int lDaysUntilDayOfWeek = ((int)dayOfWeek - (int)lToday.DayOfWeek + 7) % 7;
@@ -146,8 +144,6 @@ namespace Com.GabrielBernabeu.Cultivation
             lReturnedValue = lReturnedValue.AddHours(lDeltaHours);
             lReturnedValue.AddMinutes(-lReturnedValue.Minute);
             lReturnedValue.AddSeconds(-lReturnedValue.Second);
-
-            Debug.Log(lReturnedValue);
 
             return lReturnedValue;
         }

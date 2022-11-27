@@ -132,25 +132,21 @@ namespace Com.GabrielBernabeu.Cultivation {
 
         private void ChooseSport()
         {
-            Debug.Log("Sport!");
             ToConfirmSeed(SeedType.SPORT);
         }
 
         private void ChooseResting()
         {
-            Debug.Log("Resting!");
             ToConfirmSeed(SeedType.RESTING);
         }
 
         private void ChooseSocial()
         {
-            Debug.Log("Social!");
             ToConfirmSeed(SeedType.SOCIAL);
         }
 
         private void ChooseLearning()
         {
-            Debug.Log("Learning!");
             ToConfirmSeed(SeedType.LEARNING);
         }
 
@@ -235,7 +231,7 @@ namespace Com.GabrielBernabeu.Cultivation {
                                              thursday.IsSwitchedOn, friday.IsSwitchedOn, saturday.IsSwitchedOn, sunday.IsSwitchedOn));
 
                 LocalData lLocalData = LocalDataSaving.LoadData().Value;
-                MobileNotificationManager.Instance.MakeRepeatingNotifications(lLocalData);
+                MobileNotificationManager.Instance.InitRepeatingNotifications(lLocalData);
                 TreeScreen.Instance.Load(lLocalData);
 
                 ZoomableBg.Instance.ZoomState = ZoomState.TREE;
