@@ -5,16 +5,23 @@
 
 using Com.GabrielBernabeu.Common.DataManagement;
 using System;
-using Unity.Notifications.Android;
 using UnityEngine;
+
+#if UNITY_ANDROID
+    using Unity.Notifications.Android;
+#endif
 
 namespace Com.GabrielBernabeu.Cultivation 
 {
     public class MobileNotificationManager : MonoBehaviour
     {
+#if UNITY_ANDROID
+
         private static int id = 0;
 
         private AndroidNotificationChannel defaultChannel;
+
+#endif
 
         public static MobileNotificationManager Instance { get; private set; }
 
@@ -32,6 +39,8 @@ namespace Com.GabrielBernabeu.Cultivation
 
         private void Start()
         {
+#if UNITY_ANDROID
+
             AndroidNotificationCenter.NotificationReceivedCallback lReceivedNotificationHandler =
                 delegate (AndroidNotificationIntentData data)
                 {
@@ -51,16 +60,24 @@ namespace Com.GabrielBernabeu.Cultivation
             {
                 Debug.Log("App was opened with a notification!");
             }
+
+#endif
         }
 
         public void ResetNotifications()
         {
+#if UNITY_ANDROID
+
             AndroidNotificationCenter.CancelAllNotifications();
             AndroidNotificationCenter.DeleteNotificationChannel(defaultChannel.Id);
+
+#endif
         }
 
         public void MakeNotification(string title, string text, DateTime fireTime, TimeSpan repeatInterval = default)
         {
+#if UNITY_ANDROID
+
             AndroidNotification lNotification = new AndroidNotification()
             {
                 Title = title,
@@ -74,10 +91,14 @@ namespace Com.GabrielBernabeu.Cultivation
 
             Debug.Log(fireTime);
             AndroidNotificationCenter.SendNotificationWithExplicitID(lNotification, defaultChannel.Id, id++);
+
+#endif
         }
 
         public void InitRepeatingNotifications(LocalData data)
         {
+#if UNITY_ANDROID
+
             defaultChannel = new AndroidNotificationChannel()
             {
                 Id = "default_channel",
@@ -127,6 +148,8 @@ namespace Com.GabrielBernabeu.Cultivation
                 MakeNotification(lNotificationTitle, lNotificationText,
                     GetNextDayOfWeekDateAtHour(DayOfWeek.Sunday), lWeekSpan);
             }
+
+#endif
         }
 
         private DateTime GetNextDayOfWeekDateAtHour(DayOfWeek dayOfWeek, int hour = 8)
