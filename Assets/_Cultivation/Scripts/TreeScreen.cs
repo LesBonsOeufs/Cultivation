@@ -31,7 +31,7 @@ namespace Com.GabrielBernabeu.Cultivation
 
         [Header("Buttons")]
         [SerializeField] private Button resetBtn = default;
-        [SerializeField] private Button taskCompletedBtn = default;
+        [SerializeField] private ButtonEffect taskCompletedBtn = default;
         [SerializeField] private Button arBtn = default;
         [SerializeField] private CustomToggle cheatToggle = default;
 
@@ -111,8 +111,12 @@ namespace Com.GabrielBernabeu.Cultivation
             canvasGroup.blocksRaycasts = false;
 
             resetBtn.onClick.AddListener(OnResetButton);
-            taskCompletedBtn.onClick.AddListener(OnTaskCompletedButton);
+            taskCompletedBtn.OnClick.AddListener(OnTaskCompletedButton);
             arBtn.onClick.AddListener(OnARButton);
+
+            #if DEVELOPMENT_BUILD
+                cheatToggle.gameObject.SetActive(false);
+            #endif
 
             gameObject.SetActive(false);
         }
@@ -226,7 +230,7 @@ namespace Com.GabrielBernabeu.Cultivation
                 return;
 
             resetBtn.onClick.RemoveListener(OnResetButton);
-            taskCompletedBtn.onClick.RemoveListener(OnTaskCompletedButton);
+            taskCompletedBtn.OnClick.RemoveListener(OnTaskCompletedButton);
             arBtn.onClick.RemoveListener(OnARButton);
             Instance = null;
         }
