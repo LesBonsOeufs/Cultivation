@@ -102,7 +102,7 @@ namespace Com.GabrielBernabeu.Cultivation
             defaultChannel = new AndroidNotificationChannel()
             {
                 Id = "default_channel",
-                Name = "Default Channel",
+                Name = "Cultivate Notification",
                 Description = "For Generic Notifications",
                 Importance = Importance.Default
             };
